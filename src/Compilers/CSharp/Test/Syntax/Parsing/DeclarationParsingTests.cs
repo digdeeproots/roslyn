@@ -46,6 +46,19 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
         }
 
         [Fact]
+        public void TestVoidProperty()
+        {
+            var text = "void Name{get;set;}";
+            var file = this.ParseFile(text);
+
+            Assert.NotNull(file);
+
+            var errors = file.Errors();
+            Assert.True(errors.Length > 0);
+            Assert.Equal((int)ErrorCode.ERR_IdentifierExpectedKW, errors[0].Code);
+        }
+
+        [Fact]
         public void TestExternWithoutAlias()
         {
             var text = "extern a;";

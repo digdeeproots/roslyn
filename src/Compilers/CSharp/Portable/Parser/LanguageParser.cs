@@ -2366,6 +2366,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                 var type = this.ParseReturnType();
 
                 // <UNDONE> UNDONE: should disallow non-methods with void type here</UNDONE>
+                DetectAndDisallowVoidTypesForNonMethods();
 
                 // Check for misplaced modifiers.  if we see any, then consider this member
                 // terminated and restart parsing.
@@ -2486,6 +2487,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                 _pool.Free(attributes);
                 _termState = saveTermState;
             }
+        }
+
+        private void DetectAndDisallowVoidTypesForNonMethods()
+        {
+            // Do lots of work here, possibly adding errors to the errors object.
         }
 
         private bool TryParseFixedOrUnsafeOrDelegaeOrNew(bool acceptStatement, out MemberDeclarationSyntax result)
