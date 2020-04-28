@@ -2378,32 +2378,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
                 if (this.CurrentToken.Kind == SyntaxKind.NamespaceKeyword && parentKind == SyntaxKind.CompilationUnit)
                 {
-                    // we found a namespace with modifier or an attribute: ignore the attribute/modifier and parse as namespace
-                    if (attributes.Count > 0)
-                    {
-                        attributes[0] = this.AddError(attributes[0], ErrorCode.ERR_BadModifiersOnNamespace);
-                    }
-                    else
-                    {
-                        // if were no attributes and no modifiers we should have parsed it already in namespace body:
-                        Debug.Assert(modifiers.Count > 0);
-
-                        modifiers[0] = this.AddError(modifiers[0], ErrorCode.ERR_BadModifiersOnNamespace);
-                    }
-
-                    var namespaceDecl = ParseNamespaceDeclaration();
-
-                    if (modifiers.Count > 0)
-                    {
-                        namespaceDecl = AddLeadingSkippedSyntax(namespaceDecl, modifiers.ToListNode());
-                    }
-
-                    if (attributes.Count > 0)
-                    {
-                        namespaceDecl = AddLeadingSkippedSyntax(namespaceDecl, attributes.ToListNode());
-                    }
-
-                    return namespaceDecl;
+                    if (TryParseNamespaceDecl(modifiers, ref attributes, out MemberDeclarationSyntax memberDeclarationSyntax)) return memberDeclarationSyntax;
                 }
 
                 // It's valid to have a type declaration here -- check for those
@@ -2556,6 +2531,39 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                 _pool.Free(attributes);
                 _termState = saveTermState;
             }
+        }
+
+        private bool TryParseNamespaceDecl(SyntaxListBuilder modifiers, ref SyntaxListBuilder<AttributeListSyntax> attributes,
+            out MemberDeclarationSyntax memberDeclarationSyntax)
+        {
+            // we found a namespace with modifier or an attribute: ignore the attribute/modifier and parse as namespace
+            if (attributes.Count > 0)
+            {
+                attributes[0] = this.AddError(attributes[0], ErrorCode.ERR_BadModifiersOnNamespace);
+            }
+            else
+            {
+                // if were no attributes and no modifiers we should have parsed it already in namespace body:
+                Debug.Assert(modifiers.Count > 0);
+
+                modifiers[0] = this.AddError(modifiers[0], ErrorCode.ERR_BadModifiersOnNamespace);
+            }
+
+            var namespaceDecl = ParseNamespaceDeclaration();
+
+            if (modifiers.Count > 0)
+            {
+                namespaceDecl = AddLeadingSkippedSyntax(namespaceDecl, modifiers.ToListNode());
+            }
+
+            if (attributes.Count > 0)
+            {
+                namespaceDecl = AddLeadingSkippedSyntax(namespaceDecl, attributes.ToListNode());
+            }
+
+            memberDeclarationSyntax = namespaceDecl;
+            return true;
+            return false;
         }
 
         // if the modifiers do not contain async and the type is the identifier "async", then
