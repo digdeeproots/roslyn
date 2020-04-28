@@ -2259,54 +2259,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                     acceptStatement = false;
                 }
 
-                //
-                // Check for the following cases to disambiguate between member declarations and expressions.
-                // Doing this before parsing modifiers simplifies further analysis since some of these keywords can act as modifiers as well.
-                //
-                // unsafe { ... }
-                // fixed (...) { ... } 
-                // delegate (...) { ... }
-                // delegate { ... }
-                // new { ... }
-                // new[] { ... }
-                // new T (...)
-                // new T [...]
-                //
-                if (acceptStatement)
-                {
-                    switch (this.CurrentToken.Kind)
-                    {
-                        case SyntaxKind.UnsafeKeyword:
-                            if (this.PeekToken(1).Kind == SyntaxKind.OpenBraceToken)
-                            {
-                                return _syntaxFactory.GlobalStatement(ParseUnsafeStatement());
-                            }
-                            break;
+                var shouldReturn = TryParseFixedOrUnsafeOrDelegaeOrNew(acceptStatement, out MemberDeclarationSyntax result);
 
-                        case SyntaxKind.FixedKeyword:
-                            if (this.PeekToken(1).Kind == SyntaxKind.OpenParenToken)
-                            {
-                                return _syntaxFactory.GlobalStatement(ParseFixedStatement());
-                            }
-                            break;
-
-                        case SyntaxKind.DelegateKeyword:
-                            switch (this.PeekToken(1).Kind)
-                            {
-                                case SyntaxKind.OpenParenToken:
-                                case SyntaxKind.OpenBraceToken:
-                                    return _syntaxFactory.GlobalStatement(ParseExpressionStatement());
-                            }
-                            break;
-
-                        case SyntaxKind.NewKeyword:
-                            if (IsPossibleNewExpression())
-                            {
-                                return _syntaxFactory.GlobalStatement(ParseExpressionStatement());
-                            }
-                            break;
-                    }
-                }
+                if (shouldReturn) return result;
 
                 // All modifiers that might start an expression are processed above.
                 this.ParseModifiers(modifiers);
@@ -2531,6 +2486,70 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
                 _pool.Free(attributes);
                 _termState = saveTermState;
             }
+        }
+
+        private bool TryParseFixedOrUnsafeOrDelegaeOrNew(bool acceptStatement, out MemberDeclarationSyntax result)
+        {
+            bool shouldReturn = false;
+            MemberDeclarationSyntax result;
+            //
+            // Check for the following cases to disambiguate between member declarations and expressions.
+            // Doing this before parsing modifiers simplifies further analysis since some of these keywords can act as modifiers as well.
+            //
+            // unsafe { ... }
+            // fixed (...) { ... } 
+            // delegate (...) { ... }
+            // delegate { ... }
+            // new { ... }
+            // new[] { ... }
+            // new T (...)
+            // new T [...]
+            //
+            if (acceptStatement)
+            {
+                switch (this.CurrentToken.Kind)
+                {
+                    case SyntaxKind.UnsafeKeyword:
+                        if (this.PeekToken(1).Kind == SyntaxKind.OpenBraceToken)
+                        {
+                            shouldReturn = true;
+                            result = _syntaxFactory.GlobalStatement(ParseUnsafeStatement());
+                        }
+
+                        break;
+
+                    case SyntaxKind.FixedKeyword:
+                        if (this.PeekToken(1).Kind == SyntaxKind.OpenParenToken)
+                        {
+                            shouldReturn = true;
+                            result = _syntaxFactory.GlobalStatement(ParseFixedStatement());
+                        }
+
+                        break;
+
+                    case SyntaxKind.DelegateKeyword:
+                        switch (this.PeekToken(1).Kind)
+                        {
+                            case SyntaxKind.OpenParenToken:
+                            case SyntaxKind.OpenBraceToken:
+                                shouldReturn = true;
+                                result = _syntaxFactory.GlobalStatement(ParseExpressionStatement());
+                        }
+
+                        break;
+
+                    case SyntaxKind.NewKeyword:
+                        if (IsPossibleNewExpression())
+                        {
+                            shouldReturn = true;
+                            result = _syntaxFactory.GlobalStatement(ParseExpressionStatement());
+                        }
+
+                        break;
+                }
+            }
+
+            return shouldReturn;
         }
 
         private bool TryParseNamespaceDecl(SyntaxListBuilder modifiers, ref SyntaxListBuilder<AttributeListSyntax> attributes,
