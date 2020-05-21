@@ -1382,7 +1382,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             int notBestIdx = -1;
             int countOfNotBestCandidates =
                 probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff(results,
-                    arguments, ref useSiteDiagnostics, worse, Unknown, ref notBestIdx);
+                    arguments, ref useSiteDiagnostics, worse, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
             {
@@ -1404,7 +1404,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         private int probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, int unknown, ref int oneGoodCandidateIndex)
+            ArrayBuilder<int> worse, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
@@ -1421,7 +1421,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake(
                     results, arguments, ref useSiteDiagnostics, worse, candidateIndex, candidate);
 
-                if (worse[candidateIndex] == unknown)
+                if (worse[candidateIndex] == Unknown)
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
