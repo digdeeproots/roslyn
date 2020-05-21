@@ -1396,13 +1396,13 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else
             {
-                probably_DoSomethingWhenMultipleNotBestCandidates(results, countOfNotBestCandidates, worse, unknown, worseThanSomething, notBetterThanEverything);
+                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, unknown, worseThanSomething, notBetterThanEverything);
             }
 
             worse.Free();
         }
 
-        private static void probably_DoSomethingWhenMultipleNotBestCandidates<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
+        private static void probably_WhenMultipleNotBestCandidates_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
             int countOfNotBestCandidates, ArrayBuilder<int> worse, int unknown, int worseThanSomething, int notBetterThanEverything)
             where TMember : Symbol
         {
