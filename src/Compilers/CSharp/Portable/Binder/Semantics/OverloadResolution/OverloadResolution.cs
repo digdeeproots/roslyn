@@ -1435,7 +1435,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private static class Applesauce{}
 
-        private static bool CandidateIsWorseThanSomething<TMember>(ArrayBuilder<int> worse, int candidateIndex) where TMember : Symbol
+        private static bool CandidateIsWorseThanSomething(ArrayBuilder<int> worse, int candidateIndex)
         {
             return worse[candidateIndex] == WorseThanSomething;
         }
