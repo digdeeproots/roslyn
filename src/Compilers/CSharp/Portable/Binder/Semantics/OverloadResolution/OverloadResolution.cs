@@ -1384,7 +1384,48 @@ namespace Microsoft.CodeAnalysis.CSharp
             int countOfNotBestCandidates = 0;
             int notBestIdx = -1;
 
-            countOfNotBestCandidates = Applesauce2(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, unknown, notBetterThanEverything, countOfNotBestCandidates, ref notBestIdx);
+            int countOfNotBestCandidates1 = countOfNotBestCandidates;
+            for (int c1Idx = 0; c1Idx < results.Count; c1Idx++)
+            {
+                MemberResolutionResult<TMember> c1Result = results[c1Idx];
+
+                // If we already know this is worse than something else, no need to check again.
+                if (!c1Result.IsValid || worse[c1Idx] == worseThanSomething)
+                {
+                    continue;
+                }
+
+                for (int c2Idx = 0; c2Idx < results.Count; c2Idx++)
+                {
+                    MemberResolutionResult<TMember> c2Result = results[c2Idx];
+                    if (!c2Result.IsValid || c1Idx == c2Idx || c1Result.Member == c2Result.Member)
+                    {
+                        continue;
+                    }
+
+                    BetterResult better =
+                        BetterFunctionMember(c1Result, c2Result, arguments.Arguments, ref useSiteDiagnostics);
+                    if (better == BetterResult.Left)
+                    {
+                        worse[c2Idx] = worseThanSomething;
+                    }
+                    else if (better == BetterResult.Right)
+                    {
+                        worse[c1Idx] = worseThanSomething;
+                        break;
+                    }
+                }
+
+                if (worse[c1Idx] == unknown)
+                {
+                    // c1 was not worse than anything
+                    worse[c1Idx] = notBetterThanEverything;
+                    countOfNotBestCandidates1++;
+                    notBestIdx = c1Idx;
+                }
+            }
+
+            countOfNotBestCandidates = countOfNotBestCandidates1;
 
             if (countOfNotBestCandidates == 0)
             {
@@ -1459,53 +1500,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     results[i] = results[i].Worse();
                 }
             }
-        }
-
-        private int Applesauce2<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, int worseThanSomething, int unknown, int notBetterThanEverything, int countOfNotBestCandidates,
-            ref int notBestIdx) where TMember : Symbol
-        {
-            for (int c1Idx = 0; c1Idx < results.Count; c1Idx++)
-            {
-                MemberResolutionResult<TMember> c1Result = results[c1Idx];
-
-                // If we already know this is worse than something else, no need to check again.
-                if (!c1Result.IsValid || worse[c1Idx] == worseThanSomething)
-                {
-                    continue;
-                }
-
-                for (int c2Idx = 0; c2Idx < results.Count; c2Idx++)
-                {
-                    MemberResolutionResult<TMember> c2Result = results[c2Idx];
-                    if (!c2Result.IsValid || c1Idx == c2Idx || c1Result.Member == c2Result.Member)
-                    {
-                        continue;
-                    }
-
-                    BetterResult better =
-                        BetterFunctionMember(c1Result, c2Result, arguments.Arguments, ref useSiteDiagnostics);
-                    if (better == BetterResult.Left)
-                    {
-                        worse[c2Idx] = worseThanSomething;
-                    }
-                    else if (better == BetterResult.Right)
-                    {
-                        worse[c1Idx] = worseThanSomething;
-                        break;
-                    }
-                }
-
-                if (worse[c1Idx] == unknown)
-                {
-                    // c1 was not worse than anything
-                    worse[c1Idx] = notBetterThanEverything;
-                    countOfNotBestCandidates++;
-                    notBestIdx = c1Idx;
-                }
-            }
-
-            return countOfNotBestCandidates;
         }
 
         private static void probably_MarkAllOtherCandidatesAsWorse<TMember>(
