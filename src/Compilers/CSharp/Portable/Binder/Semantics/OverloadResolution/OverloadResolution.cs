@@ -1405,24 +1405,24 @@ namespace Microsoft.CodeAnalysis.CSharp
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
-            for (int leftCandidateIndex = 0; leftCandidateIndex < results.Count; leftCandidateIndex++)
+            for (int candidateIndex = 0; candidateIndex < results.Count; candidateIndex++)
             {
-                MemberResolutionResult<TMember> candidate = results[leftCandidateIndex];
+                MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
                 // If we already know this is worse than something else, no need to check again.
-                if (!candidate.IsValid || worse[leftCandidateIndex] == worseThanSomething)
+                if (!candidate.IsValid || worse[candidateIndex] == worseThanSomething)
                 {
                     continue;
                 }
 
-                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, leftCandidateIndex, candidate);
+                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, candidateIndex, candidate);
 
-                if (worse[leftCandidateIndex] == unknown)
+                if (worse[candidateIndex] == unknown)
                 {
                     // c1 was not worse than anything
-                    worse[leftCandidateIndex] = notBetterThanEverything;
+                    worse[candidateIndex] = notBetterThanEverything;
                     countOfNotBestCandidates++;
-                    notBestIdx = leftCandidateIndex;
+                    notBestIdx = candidateIndex;
                 }
             }
 
