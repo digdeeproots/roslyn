@@ -1400,7 +1400,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> worse, int unknown, int notBetterThanEverythingzz, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
-            int notBetterThanEverything = NotBetterThanEverything;
             int countOfNotBestCandidates = 0;
             for (int candidateIndex = 0; candidateIndex < results.Count; candidateIndex++)
             {
@@ -1418,7 +1417,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
-                    worse[candidateIndex] = notBetterThanEverything;
+                    worse[candidateIndex] = NotBetterThanEverything;
                     countOfNotBestCandidates++;
                     oneGoodCandidateIndex = candidateIndex;
                 }
