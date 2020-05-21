@@ -1433,15 +1433,15 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> worse, int worseThanSomething, int candidateIndex, MemberResolutionResult<TMember> leftCandidate)
             where TMember : Symbol
         {
-            for (int rightCandidateIndex = 0; rightCandidateIndex < results.Count; rightCandidateIndex++)
+            for (int comparedToCandidateIndex = 0; comparedToCandidateIndex < results.Count; comparedToCandidateIndex++)
             {
-                MemberResolutionResult<TMember> rightCandidate = results[rightCandidateIndex];
+                MemberResolutionResult<TMember> rightCandidate = results[comparedToCandidateIndex];
                 if (!rightCandidate.IsValid)
                 {
                     continue;
                 }
 
-                var leftAndRightAreSameCandidate = candidateIndex == rightCandidateIndex || leftCandidate.Member == rightCandidate.Member;
+                var leftAndRightAreSameCandidate = candidateIndex == comparedToCandidateIndex || leftCandidate.Member == rightCandidate.Member;
                 if (leftAndRightAreSameCandidate)
                 {
                     continue;
@@ -1451,7 +1451,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     BetterFunctionMember(leftCandidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
-                    worse[rightCandidateIndex] = worseThanSomething;
+                    worse[comparedToCandidateIndex] = worseThanSomething;
                 }
                 else if (better == BetterResult.Right)
                 {
