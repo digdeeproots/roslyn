@@ -1412,7 +1412,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                bool candidateIsWorseThanSomething = worse[candidateIndex] == WorseThanSomething;
+                bool candidateIsWorseThanSomething = CandidateIsWorseThanSomething<TMember>(worse, candidateIndex);
                 if (!candidate.IsValid || candidateIsWorseThanSomething)
                 {
                     continue;
@@ -1432,6 +1432,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             return countOfNotBestCandidates;
+        }
+
+        private static bool CandidateIsWorseThanSomething<TMember>(ArrayBuilder<int> worse, int candidateIndex) where TMember : Symbol
+        {
+            return worse[candidateIndex] == WorseThanSomething;
         }
 
         private void
