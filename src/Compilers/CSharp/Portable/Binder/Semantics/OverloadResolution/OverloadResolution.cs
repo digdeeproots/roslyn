@@ -1415,10 +1415,10 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                for (int c2Idx = 0; c2Idx < results.Count; c2Idx++)
+                for (int rightCandidateIndex = 0; rightCandidateIndex < results.Count; rightCandidateIndex++)
                 {
-                    MemberResolutionResult<TMember> c2Result = results[c2Idx];
-                    if (!c2Result.IsValid || leftCandidateIndex == c2Idx || leftCandidate.Member == c2Result.Member)
+                    MemberResolutionResult<TMember> c2Result = results[rightCandidateIndex];
+                    if (!c2Result.IsValid || leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == c2Result.Member)
                     {
                         continue;
                     }
@@ -1427,7 +1427,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                         BetterFunctionMember(leftCandidate, c2Result, arguments.Arguments, ref useSiteDiagnostics);
                     if (better == BetterResult.Left)
                     {
-                        worse[c2Idx] = worseThanSomething;
+                        worse[rightCandidateIndex] = worseThanSomething;
                     }
                     else if (better == BetterResult.Right)
                     {
