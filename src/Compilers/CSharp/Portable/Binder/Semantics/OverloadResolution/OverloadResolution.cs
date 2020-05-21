@@ -1419,7 +1419,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 if (worse[candidateIndex] == unknown)
                 {
-                    // candidate was not worse than anything
+                    // candidate was not worse than anything. But we already know it also wasn't better
+                    // than everything, or we wouldn't have gotten here.
                     worse[candidateIndex] = notBetterThanEverything;
                     countOfNotBestCandidates++;
                     notBestIdx = candidateIndex;
