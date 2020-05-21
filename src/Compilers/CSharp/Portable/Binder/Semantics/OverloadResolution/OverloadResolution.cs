@@ -1401,7 +1401,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private int Applesauce2<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, int worseThanSomething, int unknown, int notBetterThanEverything, ref int notBestIdx)
+            ArrayBuilder<int> worse, int worseThanSomething, int unknown, int notBetterThanEverything, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
@@ -1423,7 +1423,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     // than everything, or we wouldn't have gotten here.
                     worse[candidateIndex] = notBetterThanEverything;
                     countOfNotBestCandidates++;
-                    notBestIdx = candidateIndex;
+                    oneGoodCandidateIndex = candidateIndex;
                 }
             }
 
