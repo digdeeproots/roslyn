@@ -1383,6 +1383,30 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             int notBestIdx = -1;
 
+            int countOfNotBestCandidates1 = Applesauce2(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, unknown, notBetterThanEverything, ref notBestIdx);
+
+            int countOfNotBestCandidates = countOfNotBestCandidates1;
+
+            if (countOfNotBestCandidates == 0)
+            {
+                probably_WhenNoNotBestCandidates_DoSomething(results, worse, unknown, worseThanSomething);
+            }
+            else if (countOfNotBestCandidates == 1)
+            {
+                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, unknown, worseThanSomething, notBestIdx, notBetterThanEverything);
+            }
+            else
+            {
+                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, unknown, worseThanSomething, notBetterThanEverything);
+            }
+
+            worse.Free();
+        }
+
+        private int Applesauce2<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
+            ArrayBuilder<int> worse, int worseThanSomething, int unknown, int notBetterThanEverything, ref int notBestIdx)
+            where TMember : Symbol
+        {
             int countOfNotBestCandidates1 = 0;
             for (int c1Idx = 0; c1Idx < results.Count; c1Idx++)
             {
@@ -1424,22 +1448,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
             }
 
-            int countOfNotBestCandidates = countOfNotBestCandidates1;
-
-            if (countOfNotBestCandidates == 0)
-            {
-                probably_WhenNoNotBestCandidates_DoSomething(results, worse, unknown, worseThanSomething);
-            }
-            else if (countOfNotBestCandidates == 1)
-            {
-                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, unknown, worseThanSomething, notBestIdx, notBetterThanEverything);
-            }
-            else
-            {
-                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, unknown, worseThanSomething, notBetterThanEverything);
-            }
-
-            worse.Free();
+            return countOfNotBestCandidates1;
         }
 
         private static void probably_WhenMultipleNotBestCandidates_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
