@@ -1383,9 +1383,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             int notBestIdx = -1;
 
-            int countOfNotBestCandidates1 = Applesauce2(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, unknown, notBetterThanEverything, ref notBestIdx);
-
-            int countOfNotBestCandidates = countOfNotBestCandidates1;
+            int countOfNotBestCandidates = Applesauce2(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, unknown, notBetterThanEverything, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
             {
