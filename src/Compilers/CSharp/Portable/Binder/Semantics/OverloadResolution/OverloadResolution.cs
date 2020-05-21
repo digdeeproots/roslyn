@@ -1404,7 +1404,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> worse, int worseThanSomething, int unknown, int notBetterThanEverything, ref int notBestIdx)
             where TMember : Symbol
         {
-            int countOfNotBestCandidates1 = 0;
+            int countOfNotBestCandidates = 0;
             for (int c1Idx = 0; c1Idx < results.Count; c1Idx++)
             {
                 MemberResolutionResult<TMember> c1Result = results[c1Idx];
@@ -1440,12 +1440,12 @@ namespace Microsoft.CodeAnalysis.CSharp
                 {
                     // c1 was not worse than anything
                     worse[c1Idx] = notBetterThanEverything;
-                    countOfNotBestCandidates1++;
+                    countOfNotBestCandidates++;
                     notBestIdx = c1Idx;
                 }
             }
 
-            return countOfNotBestCandidates1;
+            return countOfNotBestCandidates;
         }
 
         private static void probably_WhenMultipleNotBestCandidates_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
