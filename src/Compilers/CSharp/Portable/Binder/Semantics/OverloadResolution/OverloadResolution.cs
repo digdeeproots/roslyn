@@ -1384,7 +1384,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             int countOfNotBestCandidates = 0;
             int notBestIdx = -1;
 
-            int countOfNotBestCandidates1 = countOfNotBestCandidates;
+            int countOfNotBestCandidates1 = 0;
             for (int c1Idx = 0; c1Idx < results.Count; c1Idx++)
             {
                 MemberResolutionResult<TMember> c1Result = results[c1Idx];
