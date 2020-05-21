@@ -1420,7 +1420,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake(
                     results, arguments, ref useSiteDiagnostics, comparisonHistory, candidateIndex, candidate);
 
-                if (comparisonHistory[candidateIndex] == Unknown)
+                if (IsStillUnknown(comparisonHistory, candidateIndex))
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
@@ -1431,6 +1431,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             return countOfNotBestCandidates;
+        }
+
+        private static bool IsStillUnknown(ArrayBuilder<int> comparisonHistory, int candidateIndex)
+        {
+            return comparisonHistory[candidateIndex] == Unknown;
         }
 
         private void
