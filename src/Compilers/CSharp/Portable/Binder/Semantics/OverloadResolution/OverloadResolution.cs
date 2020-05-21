@@ -1419,7 +1419,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
 
                 MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(
-                    results, arguments, ref useSiteDiagnostics, worse, WorseThanSomething, candidateIndex, candidate);
+                    results, arguments, ref useSiteDiagnostics, worse, candidateIndex, candidate);
 
                 if (worse[candidateIndex] == unknown)
                 {
@@ -1438,7 +1438,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne<
                 TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
                 ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-                ArrayBuilder<int> worse, int worseThanSomething, int candidateIndex,
+                ArrayBuilder<int> worse, int candidateIndex,
                 MemberResolutionResult<TMember> candidate)
             where TMember : Symbol
         {
@@ -1461,11 +1461,11 @@ namespace Microsoft.CodeAnalysis.CSharp
                     BetterFunctionMember(candidate, comparedToCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
-                    worse[comparedToCandidateIndex] = worseThanSomething;
+                    worse[comparedToCandidateIndex] = WorseThanSomething;
                 }
                 else if (better == BetterResult.Right)
                 {
-                    worse[candidateIndex] = worseThanSomething;
+                    worse[candidateIndex] = WorseThanSomething;
                     // we have found at least one thing better than our current candidate, so we can stop.
                     break;
                 }
