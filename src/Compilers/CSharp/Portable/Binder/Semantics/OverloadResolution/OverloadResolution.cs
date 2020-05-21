@@ -1404,7 +1404,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         private int probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, ref int oneGoodCandidateIndex)
+            ArrayBuilder<int> comparisonHistory, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
@@ -1412,19 +1412,19 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                if (!candidate.IsValid || worse.IsWorseThanSomething(candidateIndex))
+                if (!candidate.IsValid || comparisonHistory.IsWorseThanSomething(candidateIndex))
                 {
                     continue;
                 }
 
                 MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake(
-                    results, arguments, ref useSiteDiagnostics, worse, candidateIndex, candidate);
+                    results, arguments, ref useSiteDiagnostics, comparisonHistory, candidateIndex, candidate);
 
-                if (worse[candidateIndex] == Unknown)
+                if (comparisonHistory[candidateIndex] == Unknown)
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
-                    worse[candidateIndex] = NotBetterThanEverything;
+                    comparisonHistory[candidateIndex] = NotBetterThanEverything;
                     countOfNotBestCandidates++;
                     oneGoodCandidateIndex = candidateIndex;
                 }
