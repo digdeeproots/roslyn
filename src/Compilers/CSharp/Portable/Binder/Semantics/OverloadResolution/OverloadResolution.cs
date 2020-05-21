@@ -1397,9 +1397,10 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private int probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, int worseThanSomething, int unknown, int notBetterThanEverything, ref int oneGoodCandidateIndex)
+            ArrayBuilder<int> worse, int worseThanSomethingzz, int unknown, int notBetterThanEverything, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
+            int worseThanSomething = WorseThanSomething;
             int countOfNotBestCandidates = 0;
             for (int candidateIndex = 0; candidateIndex < results.Count; candidateIndex++)
             {
