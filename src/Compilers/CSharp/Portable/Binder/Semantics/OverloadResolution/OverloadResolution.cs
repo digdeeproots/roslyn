@@ -1430,7 +1430,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private void probably_MarkIfThisCandidateIsWorseThanAtLeastOneOther_AndStuff<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, int worseThanSomething, int candidateIndex, MemberResolutionResult<TMember> leftCandidate)
+            ArrayBuilder<int> worse, int worseThanSomething, int candidateIndex, MemberResolutionResult<TMember> candidate)
             where TMember : Symbol
         {
             for (int comparedToCandidateIndex = 0; comparedToCandidateIndex < results.Count; comparedToCandidateIndex++)
@@ -1441,14 +1441,14 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                var leftAndRightAreSameCandidate = candidateIndex == comparedToCandidateIndex || leftCandidate.Member == rightCandidate.Member;
+                var leftAndRightAreSameCandidate = candidateIndex == comparedToCandidateIndex || candidate.Member == rightCandidate.Member;
                 if (leftAndRightAreSameCandidate)
                 {
                     continue;
                 }
 
                 BetterResult better =
-                    BetterFunctionMember(leftCandidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
+                    BetterFunctionMember(candidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
                     worse[comparedToCandidateIndex] = worseThanSomething;
