@@ -1369,6 +1369,12 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return;
             }
 
+            Applesauce(results, arguments, ref useSiteDiagnostics);
+        }
+
+        private void Applesauce<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics)
+            where TMember : Symbol
+        {
             const int unknown = 0;
             const int worseThanSomething = 1;
             const int notBetterThanEverything = 2;
