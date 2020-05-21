@@ -1432,6 +1432,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             return countOfNotBestCandidates;
         }
+        
+        private static class Applesauce{}
 
         private static bool CandidateIsWorseThanSomething<TMember>(ArrayBuilder<int> worse, int candidateIndex) where TMember : Symbol
         {
