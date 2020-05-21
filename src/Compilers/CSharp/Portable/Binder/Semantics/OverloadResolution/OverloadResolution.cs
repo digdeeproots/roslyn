@@ -1420,7 +1420,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake(
                     results, arguments, ref useSiteDiagnostics, comparisonHistory, candidateIndex, candidate);
 
-                if (Applesauce.IsStillUnknown(comparisonHistory, candidateIndex))
+                if (comparisonHistory.IsStillUnknown(candidateIndex))
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
@@ -3732,7 +3732,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return worse[candidateIndex] == OverloadResolution.WorseThanSomething;
         }
 
-        public static bool IsStillUnknown(ArrayBuilder<int> comparisonHistory, int candidateIndex)
+        public static bool IsStillUnknown(this ArrayBuilder<int> comparisonHistory, int candidateIndex)
         {
             return comparisonHistory[candidateIndex] == OverloadResolution.Unknown;
         }
