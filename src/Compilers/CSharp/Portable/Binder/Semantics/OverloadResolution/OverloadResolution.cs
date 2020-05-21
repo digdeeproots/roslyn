@@ -1407,15 +1407,15 @@ namespace Microsoft.CodeAnalysis.CSharp
             int countOfNotBestCandidates = 0;
             for (int leftCandidateIndex = 0; leftCandidateIndex < results.Count; leftCandidateIndex++)
             {
-                MemberResolutionResult<TMember> leftCandidate = results[leftCandidateIndex];
+                MemberResolutionResult<TMember> candidate = results[leftCandidateIndex];
 
                 // If we already know this is worse than something else, no need to check again.
-                if (!leftCandidate.IsValid || worse[leftCandidateIndex] == worseThanSomething)
+                if (!candidate.IsValid || worse[leftCandidateIndex] == worseThanSomething)
                 {
                     continue;
                 }
 
-                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, leftCandidateIndex, leftCandidate);
+                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, leftCandidateIndex, candidate);
 
                 if (worse[leftCandidateIndex] == unknown)
                 {
