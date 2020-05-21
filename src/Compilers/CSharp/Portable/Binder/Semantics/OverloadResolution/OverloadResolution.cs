@@ -1412,8 +1412,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                bool candidateIsWorseThanSomething = CandidateIsWorseThanSomething<TMember>(worse, candidateIndex);
-                if (!candidate.IsValid || candidateIsWorseThanSomething)
+                if (!candidate.IsValid || CandidateIsWorseThanSomething<TMember>(worse, candidateIndex))
                 {
                     continue;
                 }
