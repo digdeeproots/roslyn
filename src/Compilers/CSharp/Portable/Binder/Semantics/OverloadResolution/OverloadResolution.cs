@@ -1382,7 +1382,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> worse = ArrayBuilder<int>.GetInstance(results.Count, unknown);
 
             int notBestIdx = -1;
-
             int countOfNotBestCandidates = Applesauce2(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, unknown, notBetterThanEverything, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
