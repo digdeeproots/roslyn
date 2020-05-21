@@ -1456,6 +1456,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 else if (better == BetterResult.Right)
                 {
                     worse[leftCandidateIndex] = worseThanSomething;
+                    // we have found at least one thing better than our current candidate, so we can stop.
                     break;
                 }
             }
