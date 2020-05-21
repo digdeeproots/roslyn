@@ -1386,7 +1386,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else if (countOfNotBestCandidates == 1)
             {
-                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, WorseThanSomething, notBestIdx, NotBetterThanEverything);
+                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, notBestIdx, NotBetterThanEverything);
             }
             else
             {
@@ -1486,13 +1486,13 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private void probably_WhenOneNotBestCandidate_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
-            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> worse, int worseThanSomething, int notBestIdx,
+            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> worse, int notBestIdx,
             int notBetterThanEverything) where TMember : Symbol
         {
             for (int i = 0; i < worse.Count; ++i)
             {
                 Debug.Assert(!results[i].IsValid || worse[i] != Unknown);
-                if (worse[i] == worseThanSomething)
+                if (worse[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than the single notBest candidate, as Worst in order to improve error reporting.
                     results[i] = BetterResult.Left == BetterFunctionMember(results[notBestIdx], results[i],
