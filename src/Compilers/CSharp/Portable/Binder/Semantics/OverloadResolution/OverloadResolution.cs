@@ -1435,20 +1435,20 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             for (int comparedToCandidateIndex = 0; comparedToCandidateIndex < results.Count; comparedToCandidateIndex++)
             {
-                MemberResolutionResult<TMember> rightCandidate = results[comparedToCandidateIndex];
-                if (!rightCandidate.IsValid)
+                MemberResolutionResult<TMember> comparedToCandidate = results[comparedToCandidateIndex];
+                if (!comparedToCandidate.IsValid)
                 {
                     continue;
                 }
 
-                var leftAndRightAreSameCandidate = candidateIndex == comparedToCandidateIndex || candidate.Member == rightCandidate.Member;
+                var leftAndRightAreSameCandidate = candidateIndex == comparedToCandidateIndex || candidate.Member == comparedToCandidate.Member;
                 if (leftAndRightAreSameCandidate)
                 {
                     continue;
                 }
 
                 BetterResult better =
-                    BetterFunctionMember(candidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
+                    BetterFunctionMember(candidate, comparedToCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
                     worse[comparedToCandidateIndex] = worseThanSomething;
