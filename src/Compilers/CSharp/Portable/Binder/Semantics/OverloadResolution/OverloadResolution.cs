@@ -1396,24 +1396,31 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else
             {
-                Debug.Assert(countOfNotBestCandidates > 1);
-
-                for (int i = 0; i < worse.Count; ++i)
-                {
-                    Debug.Assert(!results[i].IsValid || worse[i] != unknown);
-                    if (worse[i] == worseThanSomething)
-                    {
-                        // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
-                        results[i] = results[i].Worst();
-                    }
-                    else if (worse[i] == notBetterThanEverything)
-                    {
-                        results[i] = results[i].Worse();
-                    }
-                }
+                probably_DoSomethingWhenMultipleNotBestCandidates(results, countOfNotBestCandidates, worse, unknown, worseThanSomething, notBetterThanEverything);
             }
 
             worse.Free();
+        }
+
+        private static void probably_DoSomethingWhenMultipleNotBestCandidates<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
+            int countOfNotBestCandidates, ArrayBuilder<int> worse, int unknown, int worseThanSomething, int notBetterThanEverything)
+            where TMember : Symbol
+        {
+            Debug.Assert(countOfNotBestCandidates > 1);
+
+            for (int i = 0; i < worse.Count; ++i)
+            {
+                Debug.Assert(!results[i].IsValid || worse[i] != unknown);
+                if (worse[i] == worseThanSomething)
+                {
+                    // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
+                    results[i] = results[i].Worst();
+                }
+                else if (worse[i] == notBetterThanEverything)
+                {
+                    results[i] = results[i].Worse();
+                }
+            }
         }
 
         private void probably_DoSomethingWhenOneNotBestCandidate<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
