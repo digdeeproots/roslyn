@@ -1424,13 +1424,18 @@ namespace Microsoft.CodeAnalysis.CSharp
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
-                    comparisonHistory[candidateIndex] = NotBetterThanEverything;
+                    StoreAsNotBestOrWorst(comparisonHistory, candidateIndex);
                     countOfNotBestCandidates++;
                     oneGoodCandidateIndex = candidateIndex;
                 }
             }
 
             return countOfNotBestCandidates;
+        }
+
+        private static void StoreAsNotBestOrWorst(ArrayBuilder<int> comparisonHistory, int candidateIndex)
+        {
+            comparisonHistory[candidateIndex] = NotBetterThanEverything;
         }
 
         private void
