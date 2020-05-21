@@ -1415,26 +1415,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                for (int rightCandidateIndex = 0; rightCandidateIndex < results.Count; rightCandidateIndex++)
-                {
-                    MemberResolutionResult<TMember> rightCandidate = results[rightCandidateIndex];
-                    if (!rightCandidate.IsValid || leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == rightCandidate.Member)
-                    {
-                        continue;
-                    }
-
-                    BetterResult better =
-                        BetterFunctionMember(leftCandidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
-                    if (better == BetterResult.Left)
-                    {
-                        worse[rightCandidateIndex] = worseThanSomething;
-                    }
-                    else if (better == BetterResult.Right)
-                    {
-                        worse[leftCandidateIndex] = worseThanSomething;
-                        break;
-                    }
-                }
+                Applesauce3(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, leftCandidateIndex, leftCandidate);
 
                 if (worse[leftCandidateIndex] == unknown)
                 {
@@ -1446,6 +1427,33 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             return countOfNotBestCandidates;
+        }
+
+        private void Applesauce3<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
+            ArrayBuilder<int> worse, int worseThanSomething, int leftCandidateIndex, MemberResolutionResult<TMember> leftCandidate)
+            where TMember : Symbol
+        {
+            for (int rightCandidateIndex = 0; rightCandidateIndex < results.Count; rightCandidateIndex++)
+            {
+                MemberResolutionResult<TMember> rightCandidate = results[rightCandidateIndex];
+                if (!rightCandidate.IsValid || leftCandidateIndex == rightCandidateIndex ||
+                    leftCandidate.Member == rightCandidate.Member)
+                {
+                    continue;
+                }
+
+                BetterResult better =
+                    BetterFunctionMember(leftCandidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
+                if (better == BetterResult.Left)
+                {
+                    worse[rightCandidateIndex] = worseThanSomething;
+                }
+                else if (better == BetterResult.Right)
+                {
+                    worse[leftCandidateIndex] = worseThanSomething;
+                    break;
+                }
+            }
         }
 
         private static void probably_WhenMultipleNotBestCandidates_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
