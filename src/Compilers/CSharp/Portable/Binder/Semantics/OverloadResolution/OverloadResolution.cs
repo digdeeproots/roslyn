@@ -1378,7 +1378,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> worse = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
 
             int notBestIdx = -1;
-            int countOfNotBestCandidates = probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff(results, arguments, ref useSiteDiagnostics, worse, Unknown, NotBetterThanEverything, ref notBestIdx);
+            int countOfNotBestCandidates = probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff(results, arguments, ref useSiteDiagnostics, worse, Unknown, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
             {
@@ -1397,7 +1397,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private int probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> worse, int unknown, int notBetterThanEverythingzz, ref int oneGoodCandidateIndex)
+            ArrayBuilder<int> worse, int unknown, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
