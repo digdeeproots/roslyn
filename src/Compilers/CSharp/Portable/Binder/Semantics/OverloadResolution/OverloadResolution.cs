@@ -1433,14 +1433,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             return countOfNotBestCandidates;
         }
 
-        private static class Applesauce
-        {
-            public static bool CandidateIsWorseThanSomething(ArrayBuilder<int> worse, int candidateIndex)
-            {
-                return worse[candidateIndex] == WorseThanSomething;
-            }
-        }
-
         private void
             MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake<
                 TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
@@ -2566,7 +2558,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private const int BetterConversionTargetRecursionLimit = 100;
         private const int NotBetterThanEverything = 2;
-        private const int WorseThanSomething = 1;
+        public const int WorseThanSomething = 1;
         private const int Unknown = 0;
 
         private BetterResult BetterConversionTarget(
@@ -3730,6 +3722,14 @@ namespace Microsoft.CodeAnalysis.CSharp
                 default:
                     throw ExceptionUtilities.UnexpectedValue(member.Kind);
             }
+        }
+    }
+
+    internal static class Applesauce
+    {
+        public static bool CandidateIsWorseThanSomething(ArrayBuilder<int> worse, int candidateIndex)
+        {
+            return worse[candidateIndex] == OverloadResolution.WorseThanSomething;
         }
     }
 }
