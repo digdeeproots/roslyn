@@ -1405,12 +1405,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
-            for (int c1Idx = 0; c1Idx < results.Count; c1Idx++)
+            for (int leftCandidateIndex = 0; leftCandidateIndex < results.Count; leftCandidateIndex++)
             {
-                MemberResolutionResult<TMember> c1Result = results[c1Idx];
+                MemberResolutionResult<TMember> c1Result = results[leftCandidateIndex];
 
                 // If we already know this is worse than something else, no need to check again.
-                if (!c1Result.IsValid || worse[c1Idx] == worseThanSomething)
+                if (!c1Result.IsValid || worse[leftCandidateIndex] == worseThanSomething)
                 {
                     continue;
                 }
@@ -1418,7 +1418,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 for (int c2Idx = 0; c2Idx < results.Count; c2Idx++)
                 {
                     MemberResolutionResult<TMember> c2Result = results[c2Idx];
-                    if (!c2Result.IsValid || c1Idx == c2Idx || c1Result.Member == c2Result.Member)
+                    if (!c2Result.IsValid || leftCandidateIndex == c2Idx || c1Result.Member == c2Result.Member)
                     {
                         continue;
                     }
@@ -1431,17 +1431,17 @@ namespace Microsoft.CodeAnalysis.CSharp
                     }
                     else if (better == BetterResult.Right)
                     {
-                        worse[c1Idx] = worseThanSomething;
+                        worse[leftCandidateIndex] = worseThanSomething;
                         break;
                     }
                 }
 
-                if (worse[c1Idx] == unknown)
+                if (worse[leftCandidateIndex] == unknown)
                 {
                     // c1 was not worse than anything
-                    worse[c1Idx] = notBetterThanEverything;
+                    worse[leftCandidateIndex] = notBetterThanEverything;
                     countOfNotBestCandidates++;
-                    notBestIdx = c1Idx;
+                    notBestIdx = leftCandidateIndex;
                 }
             }
 
