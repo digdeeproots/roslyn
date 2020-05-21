@@ -1450,9 +1450,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                bool leftAndRightAreSameCandidate = candidateIndex == comparedToCandidateIndex ||
+                bool areSameCandidate = candidateIndex == comparedToCandidateIndex ||
                                                     candidate.Member == comparedToCandidate.Member;
-                if (leftAndRightAreSameCandidate)
+                if (areSameCandidate)
                 {
                     continue;
                 }
