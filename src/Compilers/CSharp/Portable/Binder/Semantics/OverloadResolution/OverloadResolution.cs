@@ -1415,7 +1415,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                probably_CompareCandidateAgainstOthers_AndStuff(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, leftCandidateIndex, leftCandidate);
+                probably_MarkIfThisCandidateIsWorseThanAtLeastOneOther_AndStuff(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, leftCandidateIndex, leftCandidate);
 
                 if (worse[leftCandidateIndex] == unknown)
                 {
@@ -1429,7 +1429,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return countOfNotBestCandidates;
         }
 
-        private void probably_CompareCandidateAgainstOthers_AndStuff<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
+        private void probably_MarkIfThisCandidateIsWorseThanAtLeastOneOther_AndStuff<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
             ArrayBuilder<int> worse, int worseThanSomething, int leftCandidateIndex, MemberResolutionResult<TMember> leftCandidate)
             where TMember : Symbol
         {
