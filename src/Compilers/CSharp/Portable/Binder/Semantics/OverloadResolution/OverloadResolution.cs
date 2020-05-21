@@ -1381,7 +1381,6 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             ArrayBuilder<int> worse = ArrayBuilder<int>.GetInstance(results.Count, unknown);
 
-            int countOfNotBestCandidates = 0;
             int notBestIdx = -1;
 
             int countOfNotBestCandidates1 = 0;
@@ -1425,7 +1424,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
             }
 
-            countOfNotBestCandidates = countOfNotBestCandidates1;
+            int countOfNotBestCandidates = countOfNotBestCandidates1;
 
             if (countOfNotBestCandidates == 0)
             {
