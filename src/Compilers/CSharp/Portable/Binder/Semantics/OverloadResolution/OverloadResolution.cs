@@ -1436,8 +1436,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             for (int rightCandidateIndex = 0; rightCandidateIndex < results.Count; rightCandidateIndex++)
             {
                 MemberResolutionResult<TMember> rightCandidate = results[rightCandidateIndex];
-                if (!rightCandidate.IsValid || leftCandidateIndex == rightCandidateIndex ||
-                    leftCandidate.Member == rightCandidate.Member)
+                if (!rightCandidate.IsValid)
+                {
+                    continue;
+                }
+
+                if (leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == rightCandidate.Member)
                 {
                     continue;
                 }
