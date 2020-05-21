@@ -1375,26 +1375,22 @@ namespace Microsoft.CodeAnalysis.CSharp
         private void probably_WhenThereIsNoBestCandidate_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics)
             where TMember : Symbol
         {
-            const int unknown = 0;
-            const int worseThanSomething = 1;
-            const int notBetterThanEverything = 2;
-
-            ArrayBuilder<int> worse = ArrayBuilder<int>.GetInstance(results.Count, unknown);
+            ArrayBuilder<int> worse = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
 
             int notBestIdx = -1;
-            int countOfNotBestCandidates = probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, unknown, notBetterThanEverything, ref notBestIdx);
+            int countOfNotBestCandidates = probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff(results, arguments, ref useSiteDiagnostics, worse, WorseThanSomething, Unknown, NotBetterThanEverything, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
             {
-                probably_WhenNoNotBestCandidates_DoSomething(results, worse, unknown, worseThanSomething);
+                probably_WhenNoNotBestCandidates_DoSomething(results, worse, Unknown, WorseThanSomething);
             }
             else if (countOfNotBestCandidates == 1)
             {
-                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, unknown, worseThanSomething, notBestIdx, notBetterThanEverything);
+                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, Unknown, WorseThanSomething, notBestIdx, NotBetterThanEverything);
             }
             else
             {
-                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, unknown, worseThanSomething, notBetterThanEverything);
+                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, Unknown, WorseThanSomething, NotBetterThanEverything);
             }
 
             worse.Free();
@@ -2544,6 +2540,9 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private const int BetterConversionTargetRecursionLimit = 100;
+        private const int NotBetterThanEverything = 2;
+        private const int WorseThanSomething = 1;
+        private const int Unknown = 0;
 
         private BetterResult BetterConversionTarget(
             TypeSymbol type1,
