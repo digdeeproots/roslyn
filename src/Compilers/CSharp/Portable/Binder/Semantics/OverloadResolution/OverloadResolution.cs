@@ -1441,7 +1441,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                if (leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == rightCandidate.Member)
+                var leftAndRightAreSameCandidate = leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == rightCandidate.Member;
+                if (leftAndRightAreSameCandidate)
                 {
                     continue;
                 }
