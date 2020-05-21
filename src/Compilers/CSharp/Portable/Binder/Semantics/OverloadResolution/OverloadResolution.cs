@@ -1305,13 +1305,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             if (bestIndex != -1)
             {
                 // Mark all other candidates as worse
-                for (int index = 0; index < results.Count; index++)
-                {
-                    if (results[index].IsValid && index != bestIndex)
-                    {
-                        results[index] = results[index].Worse();
-                    }
-                }
+                probably_MarkAllOtherCandidatesAsWorse(results, bestIndex);
 
                 return;
             }
@@ -1415,6 +1409,18 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             worse.Free();
+        }
+
+        private static void probably_MarkAllOtherCandidatesAsWorse<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, int bestIndex)
+            where TMember : Symbol
+        {
+            for (int index = 0; index < results.Count; index++)
+            {
+                if (results[index].IsValid && index != bestIndex)
+                {
+                    results[index] = results[index].Worse();
+                }
+            }
         }
 
         // Merge upstream/dev15.6.x
