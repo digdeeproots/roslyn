@@ -1409,8 +1409,8 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                // If we already know this is worse than something else, no need to check again.
-                if (!candidate.IsValid || worse[candidateIndex] == worseThanSomething)
+                var candidateIsWorseThanSomething = worse[candidateIndex] == worseThanSomething;
+                if (!candidate.IsValid || candidateIsWorseThanSomething)
                 {
                     continue;
                 }
