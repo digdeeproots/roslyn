@@ -1400,19 +1400,18 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> worse, int worseThanSomethingzz, int unknown, int notBetterThanEverything, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
-            int worseThanSomething = WorseThanSomething;
             int countOfNotBestCandidates = 0;
             for (int candidateIndex = 0; candidateIndex < results.Count; candidateIndex++)
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                var candidateIsWorseThanSomething = worse[candidateIndex] == worseThanSomething;
+                var candidateIsWorseThanSomething = worse[candidateIndex] == WorseThanSomething;
                 if (!candidate.IsValid || candidateIsWorseThanSomething)
                 {
                     continue;
                 }
 
-                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(results, arguments, ref useSiteDiagnostics, worse, worseThanSomething, candidateIndex, candidate);
+                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(results, arguments, ref useSiteDiagnostics, worse, WorseThanSomething, candidateIndex, candidate);
 
                 if (worse[candidateIndex] == unknown)
                 {
