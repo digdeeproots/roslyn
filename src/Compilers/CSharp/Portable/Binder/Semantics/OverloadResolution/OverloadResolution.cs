@@ -1412,7 +1412,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                if (!candidate.IsValid || CandidateIsWorseThanSomething<TMember>(worse, candidateIndex))
+                if (!candidate.IsValid || Applesauce.CandidateIsWorseThanSomething(worse, candidateIndex))
                 {
                     continue;
                 }
@@ -1433,11 +1433,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             return countOfNotBestCandidates;
         }
 
-        private static class Applesauce{}
-
-        private static bool CandidateIsWorseThanSomething(ArrayBuilder<int> worse, int candidateIndex)
+        private static class Applesauce
         {
-            return worse[candidateIndex] == WorseThanSomething;
+            public static bool CandidateIsWorseThanSomething(ArrayBuilder<int> worse, int candidateIndex)
+            {
+                return worse[candidateIndex] == WorseThanSomething;
+            }
         }
 
         private void
