@@ -1407,10 +1407,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             int countOfNotBestCandidates = 0;
             for (int leftCandidateIndex = 0; leftCandidateIndex < results.Count; leftCandidateIndex++)
             {
-                MemberResolutionResult<TMember> c1Result = results[leftCandidateIndex];
+                MemberResolutionResult<TMember> leftCandidate = results[leftCandidateIndex];
 
                 // If we already know this is worse than something else, no need to check again.
-                if (!c1Result.IsValid || worse[leftCandidateIndex] == worseThanSomething)
+                if (!leftCandidate.IsValid || worse[leftCandidateIndex] == worseThanSomething)
                 {
                     continue;
                 }
@@ -1418,13 +1418,13 @@ namespace Microsoft.CodeAnalysis.CSharp
                 for (int c2Idx = 0; c2Idx < results.Count; c2Idx++)
                 {
                     MemberResolutionResult<TMember> c2Result = results[c2Idx];
-                    if (!c2Result.IsValid || leftCandidateIndex == c2Idx || c1Result.Member == c2Result.Member)
+                    if (!c2Result.IsValid || leftCandidateIndex == c2Idx || leftCandidate.Member == c2Result.Member)
                     {
                         continue;
                     }
 
                     BetterResult better =
-                        BetterFunctionMember(c1Result, c2Result, arguments.Arguments, ref useSiteDiagnostics);
+                        BetterFunctionMember(leftCandidate, c2Result, arguments.Arguments, ref useSiteDiagnostics);
                     if (better == BetterResult.Left)
                     {
                         worse[c2Idx] = worseThanSomething;
