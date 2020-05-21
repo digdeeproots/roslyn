@@ -1417,14 +1417,14 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 for (int rightCandidateIndex = 0; rightCandidateIndex < results.Count; rightCandidateIndex++)
                 {
-                    MemberResolutionResult<TMember> c2Result = results[rightCandidateIndex];
-                    if (!c2Result.IsValid || leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == c2Result.Member)
+                    MemberResolutionResult<TMember> rightCandidate = results[rightCandidateIndex];
+                    if (!rightCandidate.IsValid || leftCandidateIndex == rightCandidateIndex || leftCandidate.Member == rightCandidate.Member)
                     {
                         continue;
                     }
 
                     BetterResult better =
-                        BetterFunctionMember(leftCandidate, c2Result, arguments.Arguments, ref useSiteDiagnostics);
+                        BetterFunctionMember(leftCandidate, rightCandidate, arguments.Arguments, ref useSiteDiagnostics);
                     if (better == BetterResult.Left)
                     {
                         worse[rightCandidateIndex] = worseThanSomething;
