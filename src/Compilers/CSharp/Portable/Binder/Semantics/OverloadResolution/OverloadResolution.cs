@@ -1418,7 +1418,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     continue;
                 }
 
-                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne(
+                MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake(
                     results, arguments, ref useSiteDiagnostics, worse, candidateIndex, candidate);
 
                 if (worse[candidateIndex] == unknown)
@@ -1435,7 +1435,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private void
-            MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMarkAnyOtherCandidatesThatWeFindWhichAreWorseThanThisOne<
+            MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake<
                 TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
                 ref HashSet<DiagnosticInfo> useSiteDiagnostics,
                 ArrayBuilder<int> worse, int candidateIndex,
