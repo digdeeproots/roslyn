@@ -1390,7 +1390,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else
             {
-                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, Unknown, WorseThanSomething, NotBetterThanEverything);
+                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse, NotBetterThanEverything);
             }
 
             worse.Free();
@@ -1460,7 +1460,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private static void probably_WhenMultipleNotBestCandidates_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results,
-            int countOfNotBestCandidates, ArrayBuilder<int> worse, int unknown, int worseThanSomething, int notBetterThanEverything)
+            int countOfNotBestCandidates, ArrayBuilder<int> worse, int notBetterThanEverything)
             where TMember : Symbol
         {
             Debug.Assert(countOfNotBestCandidates > 1);
@@ -1468,7 +1468,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             for (int i = 0; i < worse.Count; ++i)
             {
                 Debug.Assert(CandidateIsInvalidOrHasBeenCompared(results, worse, i));
-                if (worse[i] == worseThanSomething)
+                if (worse[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
                     results[i] = results[i].Worst();
