@@ -1392,7 +1392,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else if (countOfNotBestCandidates == 1)
             {
-                probably_DoSomethingWhenOneNotBestCandidate(results, arguments, ref useSiteDiagnostics, worse, unknown, worseThanSomething, notBestIdx, notBetterThanEverything);
+                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse, unknown, worseThanSomething, notBestIdx, notBetterThanEverything);
             }
             else
             {
@@ -1423,7 +1423,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        private void probably_DoSomethingWhenOneNotBestCandidate<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
+        private void probably_WhenOneNotBestCandidate_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> worse, int unknown, int worseThanSomething, int notBestIdx,
             int notBetterThanEverything) where TMember : Symbol
         {
