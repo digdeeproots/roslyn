@@ -1369,10 +1369,10 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return;
             }
 
-            Applesauce(results, arguments, ref useSiteDiagnostics);
+            probably_WhenThereIsNoBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics);
         }
 
-        private void Applesauce<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics)
+        private void probably_WhenThereIsNoBestCandidate_DoSomething<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics)
             where TMember : Symbol
         {
             const int unknown = 0;
