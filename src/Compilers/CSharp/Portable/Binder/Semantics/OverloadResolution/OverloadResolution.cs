@@ -1478,7 +1478,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             for (int i = 0; i < worse.Count; ++i)
             {
-                Debug.Assert(MethodResolutionAnalysisExtensions.CandidateIsInvalidOrHasBeenCompared(worse, results, i));
+                Debug.Assert(worse.CandidateIsInvalidOrHasBeenCompared(results, i));
                 if (worse[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
@@ -3742,7 +3742,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return analysis[i] == OverloadResolution.NotBetterThanEverything;
         }
 
-        public static bool CandidateIsInvalidOrHasBeenCompared<TMember>(ArrayBuilder<int> analysis,
+        public static bool CandidateIsInvalidOrHasBeenCompared<TMember>(this ArrayBuilder<int> analysis,
             ArrayBuilder<MemberResolutionResult<TMember>> results, int i)
             where TMember : Symbol
         {
