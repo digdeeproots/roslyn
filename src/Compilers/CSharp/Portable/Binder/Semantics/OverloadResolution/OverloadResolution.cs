@@ -1424,7 +1424,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
-                    Applesauce.StoreAsNotBestOrWorst(comparisonHistory, candidateIndex);
+                    comparisonHistory.StoreAsNotBestOrWorst(candidateIndex);
                     countOfNotBestCandidates++;
                     oneGoodCandidateIndex = candidateIndex;
                 }
@@ -3737,7 +3737,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return comparisonHistory[candidateIndex] == OverloadResolution.Unknown;
         }
 
-        public static void StoreAsNotBestOrWorst(ArrayBuilder<int> comparisonHistory, int candidateIndex)
+        public static void StoreAsNotBestOrWorst(this ArrayBuilder<int> comparisonHistory, int candidateIndex)
         {
             comparisonHistory[candidateIndex] = OverloadResolution.NotBetterThanEverything;
         }
