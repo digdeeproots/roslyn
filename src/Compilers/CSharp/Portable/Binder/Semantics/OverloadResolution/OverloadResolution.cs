@@ -1471,20 +1471,20 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private static void probably_UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results,
-            int countOfNotBestCandidates, ArrayBuilder<int> worse)
+            int countOfNotBestCandidates, ArrayBuilder<int> analysis)
             where TMember : Symbol
         {
             Debug.Assert(countOfNotBestCandidates > 1);
 
-            for (int i = 0; i < worse.Count; ++i)
+            for (int i = 0; i < analysis.Count; ++i)
             {
-                Debug.Assert(worse.CandidateIsInvalidOrHasBeenCompared(results, i));
-                if (worse[i] == WorseThanSomething)
+                Debug.Assert(analysis.CandidateIsInvalidOrHasBeenCompared(results, i));
+                if (analysis[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
                     results[i] = results[i].Worst();
                 }
-                else if (worse[i] == NotBetterThanEverything)
+                else if (analysis[i] == NotBetterThanEverything)
                 {
                     results[i] = results[i].Worse();
                 }
