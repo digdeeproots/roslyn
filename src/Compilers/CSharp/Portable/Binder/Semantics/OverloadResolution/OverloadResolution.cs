@@ -1367,7 +1367,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return;
             }
 
-            // Perform additional analysis in order to improve diagnostics
             probably_WhenThereIsNoBestCandidate_PerformAnalysisToImproveDiagnostics(results, arguments, ref useSiteDiagnostics);
         }
 
