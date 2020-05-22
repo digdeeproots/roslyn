@@ -1384,7 +1384,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             if (numberOfEquallyGoodCandidates == 0)
             {
-                probably_WhenNoNotBestCandidates_DoSomething(results, comparisonHistory, WorseThanSomething);
+                probably_DoSomethingWhenNoGoodCandidates(results, comparisonHistory, WorseThanSomething);
             }
             else if (numberOfEquallyGoodCandidates == 1)
             {
@@ -1524,7 +1524,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             results[notBestIdx] = results[notBestIdx].Worse();
         }
 
-        private static void probably_WhenNoNotBestCandidates_DoSomething<TMember>(
+        private static void probably_DoSomethingWhenNoGoodCandidates<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, ArrayBuilder<int> worse, int worseThanSomething)
             where TMember : Symbol
         {
