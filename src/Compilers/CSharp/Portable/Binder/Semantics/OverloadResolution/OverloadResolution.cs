@@ -1507,10 +1507,10 @@ namespace Microsoft.CodeAnalysis.CSharp
                 Debug.Assert(!results[i].IsValid || !analysis.IsStillUnknown(i));
                 if (analysis.IsWorseThanSomething(i))
                 {
-                    // Mark those candidates, that are worse than the single notBest candidate, as Worst in order to improve error reporting.
                     if (BetterResult.Left == BetterFunctionMember(results[goodCandidate], results[i],
                         arguments.Arguments, ref useSiteDiagnostics))
                     {
+                        // This isn't as good as the one that wasn't best, so call it worst to improve error reporting.
                         results[i] = results[i].Worst();
                     }
                     else
