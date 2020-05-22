@@ -1368,10 +1368,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             // Perform additional analysis in order to improve diagnostics
-            probably_WhenThereIsNoBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics);
+            probably_WhenThereIsNoBestCandidate_PerformAnalysisToImproveDiagnostics(results, arguments, ref useSiteDiagnostics);
         }
 
-        private void probably_WhenThereIsNoBestCandidate_DoSomething<TMember>(
+        private void probably_WhenThereIsNoBestCandidate_PerformAnalysisToImproveDiagnostics<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics)
             where TMember : Symbol
