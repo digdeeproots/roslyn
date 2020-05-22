@@ -1393,7 +1393,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else
             {
-                probably_UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates, analysis);
+                UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates, analysis);
             }
 
             analysis.Free();
@@ -1402,7 +1402,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         private int FindAllEquallyGoodCandidates<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-            ArrayBuilder<int> comparisonHistory, ref int oneGoodCandidateIndex)
+            ArrayBuilder<int> analysis, ref int oneGoodCandidateIndex)
             where TMember : Symbol
         {
             int countOfNotBestCandidates = 0;
@@ -1410,19 +1410,19 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 MemberResolutionResult<TMember> candidate = results[candidateIndex];
 
-                if (!candidate.IsValid || comparisonHistory.IsWorseThanSomething(candidateIndex))
+                if (!candidate.IsValid || analysis.IsWorseThanSomething(candidateIndex))
                 {
                     continue;
                 }
 
                 MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake(
-                    results, arguments, ref useSiteDiagnostics, comparisonHistory, candidateIndex, candidate);
+                    results, arguments, ref useSiteDiagnostics, analysis, candidateIndex, candidate);
 
-                if (comparisonHistory.IsStillUnknown(candidateIndex))
+                if (analysis.IsStillUnknown(candidateIndex))
                 {
                     // candidate was not worse than anything. But we already know it also wasn't better
                     // than everything, or we wouldn't have gotten here.
-                    comparisonHistory.StoreAsNotBestOrWorst(candidateIndex);
+                    analysis.StoreAsNotBestOrWorst(candidateIndex);
                     countOfNotBestCandidates++;
                     oneGoodCandidateIndex = candidateIndex;
                 }
@@ -1435,7 +1435,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             MarkIfThisCandidateIsWorseThanAtLeastOneOtherAndMemoizeAnyComparisonsWeMake<
                 TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
                 ref HashSet<DiagnosticInfo> useSiteDiagnostics,
-                ArrayBuilder<int> worse, int candidateIndex,
+                ArrayBuilder<int> analysis, int candidateIndex,
                 MemberResolutionResult<TMember> candidate)
             where TMember : Symbol
         {
@@ -1458,18 +1458,18 @@ namespace Microsoft.CodeAnalysis.CSharp
                     BetterFunctionMember(candidate, comparedToCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
-                    worse[comparedToCandidateIndex] = WorseThanSomething;
+                    analysis[comparedToCandidateIndex] = WorseThanSomething;
                 }
                 else if (better == BetterResult.Right)
                 {
-                    worse[candidateIndex] = WorseThanSomething;
+                    analysis[candidateIndex] = WorseThanSomething;
                     // we have found at least one thing better than our current candidate, so we can stop.
                     break;
                 }
             }
         }
 
-        private static void probably_UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates<TMember>(
+        private static void UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results,
             int countOfNotBestCandidates, ArrayBuilder<int> analysis)
             where TMember : Symbol
