@@ -1364,10 +1364,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             if (bestIndex != -1)
             {
                 MarkAllOtherCandidatesAsWorse(results, bestIndex);
-                return;
             }
-
-            ImproveDiagnosticsWhenThereIsNoBestCandidate(results, arguments, ref useSiteDiagnostics);
+            else
+            {
+                ImproveDiagnosticsWhenThereIsNoBestCandidate(results, arguments, ref useSiteDiagnostics);
+            }
         }
 
         private void ImproveDiagnosticsWhenThereIsNoBestCandidate<TMember>(
