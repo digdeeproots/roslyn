@@ -1516,7 +1516,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
                 else
                 {
-                    Debug.Assert(analysis[i] != notBetterThanEverything || i == notBestIdx);
+                    Debug.Assert(!(analysis[i] == notBetterThanEverything) || i == notBestIdx);
                 }
             }
 
