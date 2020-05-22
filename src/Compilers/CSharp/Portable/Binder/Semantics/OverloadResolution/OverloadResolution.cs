@@ -1378,22 +1378,22 @@ namespace Microsoft.CodeAnalysis.CSharp
             ArrayBuilder<int> comparisonHistory = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
 
             int notBestIdx = -1;
-            int countOfNotBestCandidates =
+            int numberOfEquallyGoodCandidates =
                 CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest(results,
                     arguments, ref useSiteDiagnostics, comparisonHistory, ref notBestIdx);
 
-            if (countOfNotBestCandidates == 0)
+            if (numberOfEquallyGoodCandidates == 0)
             {
                 probably_WhenNoNotBestCandidates_DoSomething(results, comparisonHistory, WorseThanSomething);
             }
-            else if (countOfNotBestCandidates == 1)
+            else if (numberOfEquallyGoodCandidates == 1)
             {
                 probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, comparisonHistory,
                     notBestIdx, NotBetterThanEverything);
             }
             else
             {
-                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, comparisonHistory);
+                probably_WhenMultipleNotBestCandidates_DoSomething(results, numberOfEquallyGoodCandidates, comparisonHistory);
             }
 
             comparisonHistory.Free();
