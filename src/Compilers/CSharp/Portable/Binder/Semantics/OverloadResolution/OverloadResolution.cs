@@ -1389,12 +1389,14 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else if (numberOfEquallyGoodCandidates == 1)
             {
-                UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics, analysis,
+                UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics,
+                    analysis,
                     notBestIdx);
             }
             else
             {
-                UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates, analysis);
+                UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates,
+                    analysis);
             }
 
             analysis.Free();
@@ -1449,7 +1451,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
 
                 bool areSameCandidate = candidateIndex == comparedToCandidateIndex ||
-                                                    candidate.Member == comparedToCandidate.Member;
+                                        candidate.Member == comparedToCandidate.Member;
                 if (areSameCandidate)
                 {
                     continue;
@@ -1494,7 +1496,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private void UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
-            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> analysis, int goodCandidate) where TMember : Symbol
+            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> analysis, int goodCandidate)
+            where TMember : Symbol
         {
             for (int i = 0; i < analysis.Count; ++i)
             {
