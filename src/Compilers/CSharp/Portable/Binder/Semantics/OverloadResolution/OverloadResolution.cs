@@ -1497,7 +1497,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             for (int i = 0; i < analysis.Count; ++i)
             {
-                Debug.Assert(!results[i].IsValid || !analysis.IsStillUnknown(i));
+                Debug.Assert(analysis.CandidateIsInvalidOrHasBeenCompared(results, i));
                 if (analysis.IsWorseThanSomething(i))
                 {
                     if (BetterResult.Left == BetterFunctionMember(results[goodCandidate], results[i],
