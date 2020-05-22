@@ -1393,7 +1393,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else
             {
-                probably_WhenMultipleNotBestCandidates_DoSomething(results, numberOfEquallyGoodCandidates, comparisonHistory);
+                probably_DoSomethingWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates, comparisonHistory);
             }
 
             comparisonHistory.Free();
@@ -1469,7 +1469,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        private static void probably_WhenMultipleNotBestCandidates_DoSomething<TMember>(
+        private static void probably_DoSomethingWhenMultipleEquallyGoodCandidates<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results,
             int countOfNotBestCandidates, ArrayBuilder<int> worse)
             where TMember : Symbol
