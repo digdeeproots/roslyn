@@ -1388,7 +1388,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else if (numberOfEquallyGoodCandidates == 1)
             {
-                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, comparisonHistory,
+                probably_DoSomethingWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics, comparisonHistory,
                     notBestIdx, NotBetterThanEverything);
             }
             else
@@ -1498,7 +1498,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return !results[i].IsValid || worse[i] != Unknown;
         }
 
-        private void probably_WhenOneNotBestCandidate_DoSomething<TMember>(
+        private void probably_DoSomethingWhenOneEquallyGoodCandidate<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> worse, int notBestIdx,
             int notBetterThanEverything) where TMember : Symbol
