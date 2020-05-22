@@ -1505,7 +1505,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             for (int i = 0; i < analysis.Count; ++i)
             {
-                Debug.Assert(!results[i].IsValid || analysis[i] != Unknown);
+                Debug.Assert(!results[i].IsValid || !analysis.IsStillUnknown(i));
                 if (analysis[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than the single notBest candidate, as Worst in order to improve error reporting.
