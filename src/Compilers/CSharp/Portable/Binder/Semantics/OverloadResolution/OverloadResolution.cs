@@ -1461,7 +1461,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     BetterFunctionMember(candidate, comparedToCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
-                    analysis[comparedToCandidateIndex] = WorseThanSomething;
+                    StoreAsWorseThanSomething(analysis, comparedToCandidateIndex);
                 }
                 else if (better == BetterResult.Right)
                 {
@@ -1470,6 +1470,11 @@ namespace Microsoft.CodeAnalysis.CSharp
                     break;
                 }
             }
+        }
+
+        private static int StoreAsWorseThanSomething(ArrayBuilder<int> analysis, int comparedToCandidateIndex)
+        {
+            return analysis[comparedToCandidateIndex] = WorseThanSomething;
         }
 
         private static void UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates<TMember>(
