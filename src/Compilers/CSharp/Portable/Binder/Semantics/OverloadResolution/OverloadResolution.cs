@@ -1506,7 +1506,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             for (int i = 0; i < analysis.Count; ++i)
             {
                 Debug.Assert(!results[i].IsValid || !analysis.IsStillUnknown(i));
-                if (analysis[i] == WorseThanSomething)
+                if (analysis.IsWorseThanSomething(i))
                 {
                     // Mark those candidates, that are worse than the single notBest candidate, as Worst in order to improve error reporting.
                     results[i] = BetterResult.Left == BetterFunctionMember(results[notBestIdx], results[i],
