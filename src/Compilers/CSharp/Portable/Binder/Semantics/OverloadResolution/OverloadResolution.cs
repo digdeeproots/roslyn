@@ -1361,13 +1361,13 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             int bestIndex = GetTheBestCandidateIndex(results, arguments, ref useSiteDiagnostics);
-            if (bestIndex != -1)
+            if (bestIndex == -1)
             {
-                MarkAllOtherCandidatesAsWorse(results, bestIndex);
+                ImproveDiagnosticsWhenThereIsNoBestCandidate(results, arguments, ref useSiteDiagnostics);
             }
             else
             {
-                ImproveDiagnosticsWhenThereIsNoBestCandidate(results, arguments, ref useSiteDiagnostics);
+                MarkAllOtherCandidatesAsWorse(results, bestIndex);
             }
         }
 
