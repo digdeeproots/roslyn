@@ -1389,7 +1389,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             else if (numberOfEquallyGoodCandidates == 1)
             {
-                UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics,
+                UpdateResultsFromAnalysisWhenOneGoodOverloadIsStillNotBest(results, arguments, ref useSiteDiagnostics,
                     analysis,
                     notBestIdx);
             }
@@ -1494,7 +1494,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        private void UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate<TMember>(
+        private void UpdateResultsFromAnalysisWhenOneGoodOverloadIsStillNotBest<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> analysis, int goodCandidate)
             where TMember : Symbol
