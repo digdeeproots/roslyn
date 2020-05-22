@@ -1478,7 +1478,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             for (int i = 0; i < worse.Count; ++i)
             {
-                Debug.Assert(CandidateIsInvalidOrHasBeenCompared(results, worse, i));
+                Debug.Assert(CandidateIsInvalidOrHasBeenCompared(worse, results, i));
                 if (worse[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
@@ -1491,8 +1491,8 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        private static bool CandidateIsInvalidOrHasBeenCompared<TMember>(
-            ArrayBuilder<MemberResolutionResult<TMember>> results, ArrayBuilder<int> worse, int i)
+        private static bool CandidateIsInvalidOrHasBeenCompared<TMember>(ArrayBuilder<int> worse,
+            ArrayBuilder<MemberResolutionResult<TMember>> results, int i)
             where TMember : Symbol
         {
             return !results[i].IsValid || worse[i] != Unknown;
