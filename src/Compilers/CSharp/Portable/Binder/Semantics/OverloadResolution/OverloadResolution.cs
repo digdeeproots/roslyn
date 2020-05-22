@@ -1375,28 +1375,28 @@ namespace Microsoft.CodeAnalysis.CSharp
             ref HashSet<DiagnosticInfo> useSiteDiagnostics)
             where TMember : Symbol
         {
-            ArrayBuilder<int> comparisonHistory = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
+            ArrayBuilder<int> analysis = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
 
             int notBestIdx = -1;
             int numberOfEquallyGoodCandidates =
                 FindAllEquallyGoodCandidates(results,
-                    arguments, ref useSiteDiagnostics, comparisonHistory, ref notBestIdx);
+                    arguments, ref useSiteDiagnostics, analysis, ref notBestIdx);
 
             if (numberOfEquallyGoodCandidates == 0)
             {
-                UpdateResultsFromAnalysisWhenThereAreNoGoodCandidates(results, comparisonHistory, WorseThanSomething);
+                UpdateResultsFromAnalysisWhenThereAreNoGoodCandidates(results, analysis, WorseThanSomething);
             }
             else if (numberOfEquallyGoodCandidates == 1)
             {
-                probably_UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics, comparisonHistory,
+                probably_UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics, analysis,
                     notBestIdx, NotBetterThanEverything);
             }
             else
             {
-                probably_DoSomethingWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates, comparisonHistory);
+                probably_DoSomethingWhenMultipleEquallyGoodCandidates(results, numberOfEquallyGoodCandidates, analysis);
             }
 
-            comparisonHistory.Free();
+            analysis.Free();
         }
 
         private int FindAllEquallyGoodCandidates<TMember>(
