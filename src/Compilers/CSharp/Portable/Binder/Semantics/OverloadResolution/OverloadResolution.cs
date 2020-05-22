@@ -1515,7 +1515,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
                 else
                 {
-                    Debug.Assert(!MethodResolutionComparisonHistoryExtensions.IsNotBetterThanEverything(analysis, i) || i == notBestIdx);
+                    Debug.Assert(!analysis.IsNotBetterThanEverything(i) || i == notBestIdx);
                 }
             }
 
@@ -3739,7 +3739,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             comparisonHistory[candidateIndex] = OverloadResolution.NotBetterThanEverything;
         }
 
-        public static bool IsNotBetterThanEverything(ArrayBuilder<int> analysis, int i)
+        public static bool IsNotBetterThanEverything(this ArrayBuilder<int> analysis, int i)
         {
             return analysis[i] == OverloadResolution.NotBetterThanEverything;
         }
