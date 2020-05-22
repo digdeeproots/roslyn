@@ -1527,7 +1527,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             for (int i = 0; i < analysis.Count; ++i)
             {
-                Debug.Assert(!results[i].IsValid || !analysis.IsStillUnknown(i));
+                Debug.Assert(analysis.CandidateIsInvalidOrHasBeenCompared(results, i));
                 if (analysis[i] == worseThanSomething)
                 {
                     results[i] = results[i].Worse();
