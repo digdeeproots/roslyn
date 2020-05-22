@@ -1389,7 +1389,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             else if (numberOfEquallyGoodCandidates == 1)
             {
                 probably_UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate(results, arguments, ref useSiteDiagnostics, analysis,
-                    notBestIdx, NotBetterThanEverything);
+                    notBestIdx);
             }
             else
             {
@@ -1500,8 +1500,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private void probably_UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
-            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> analysis, int notBestIdx,
-            int notBetterThanEverything) where TMember : Symbol
+            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> analysis, int notBestIdx) where TMember : Symbol
         {
             for (int i = 0; i < analysis.Count; ++i)
             {
@@ -1520,7 +1519,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
             }
 
-            Debug.Assert(analysis[notBestIdx] == notBetterThanEverything);
+            Debug.Assert(analysis[notBestIdx] == NotBetterThanEverything);
             results[notBestIdx] = results[notBestIdx].Worse();
         }
 
