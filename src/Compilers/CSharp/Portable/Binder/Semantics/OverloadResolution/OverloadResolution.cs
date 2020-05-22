@@ -1380,7 +1380,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             int notBestIdx = -1;
             int numberOfEquallyGoodCandidates =
-                FindAllEquallyGoodCandidates(results,
+                FindConflictingOverloads(results,
                     arguments, ref useSiteDiagnostics, analysis, ref notBestIdx);
 
             if (numberOfEquallyGoodCandidates == 0)
@@ -1402,7 +1402,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             analysis.Free();
         }
 
-        private int FindAllEquallyGoodCandidates<TMember>(
+        private int FindConflictingOverloads<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics,
             ArrayBuilder<int> analysis, ref int oneGoodCandidateIndex)
