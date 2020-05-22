@@ -1500,13 +1500,13 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private void probably_UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
-            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> worse, int notBestIdx,
+            ref HashSet<DiagnosticInfo> useSiteDiagnostics, ArrayBuilder<int> analysis, int notBestIdx,
             int notBetterThanEverything) where TMember : Symbol
         {
-            for (int i = 0; i < worse.Count; ++i)
+            for (int i = 0; i < analysis.Count; ++i)
             {
-                Debug.Assert(!results[i].IsValid || worse[i] != Unknown);
-                if (worse[i] == WorseThanSomething)
+                Debug.Assert(!results[i].IsValid || analysis[i] != Unknown);
+                if (analysis[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than the single notBest candidate, as Worst in order to improve error reporting.
                     results[i] = BetterResult.Left == BetterFunctionMember(results[notBestIdx], results[i],
@@ -1516,11 +1516,11 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
                 else
                 {
-                    Debug.Assert(worse[i] != notBetterThanEverything || i == notBestIdx);
+                    Debug.Assert(analysis[i] != notBetterThanEverything || i == notBestIdx);
                 }
             }
 
-            Debug.Assert(worse[notBestIdx] == notBetterThanEverything);
+            Debug.Assert(analysis[notBestIdx] == notBetterThanEverything);
             results[notBestIdx] = results[notBestIdx].Worse();
         }
 
