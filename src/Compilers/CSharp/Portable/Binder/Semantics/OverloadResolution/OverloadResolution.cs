@@ -1515,17 +1515,12 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
                 else
                 {
-                    Debug.Assert(!IsNotBetterThanEverything(analysis, i) || i == notBestIdx);
+                    Debug.Assert(!MethodResolutionComparisonHistoryExtensions.IsNotBetterThanEverything(analysis, i) || i == notBestIdx);
                 }
             }
 
             Debug.Assert(analysis[notBestIdx] == NotBetterThanEverything);
             results[notBestIdx] = results[notBestIdx].Worse();
-        }
-
-        private static bool IsNotBetterThanEverything(ArrayBuilder<int> analysis, int i)
-        {
-            return analysis[i] == NotBetterThanEverything;
         }
 
         private static void UpdateResultsFromAnalysisWhenThereAreNoGoodCandidates<TMember>(
@@ -3742,6 +3737,11 @@ namespace Microsoft.CodeAnalysis.CSharp
         public static void StoreAsNotBestOrWorst(this ArrayBuilder<int> comparisonHistory, int candidateIndex)
         {
             comparisonHistory[candidateIndex] = OverloadResolution.NotBetterThanEverything;
+        }
+
+        public static bool IsNotBetterThanEverything(ArrayBuilder<int> analysis, int i)
+        {
+            return analysis[i] == OverloadResolution.NotBetterThanEverything;
         }
     }
 }
