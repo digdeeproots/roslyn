@@ -1375,28 +1375,28 @@ namespace Microsoft.CodeAnalysis.CSharp
             ref HashSet<DiagnosticInfo> useSiteDiagnostics)
             where TMember : Symbol
         {
-            ArrayBuilder<int> worse = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
+            ArrayBuilder<int> comparisonHistory = ArrayBuilder<int>.GetInstance(results.Count, Unknown);
 
             int notBestIdx = -1;
             int countOfNotBestCandidates =
                 CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest(results,
-                    arguments, ref useSiteDiagnostics, worse, ref notBestIdx);
+                    arguments, ref useSiteDiagnostics, comparisonHistory, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
             {
-                probably_WhenNoNotBestCandidates_DoSomething(results, worse, WorseThanSomething);
+                probably_WhenNoNotBestCandidates_DoSomething(results, comparisonHistory, WorseThanSomething);
             }
             else if (countOfNotBestCandidates == 1)
             {
-                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, worse,
+                probably_WhenOneNotBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics, comparisonHistory,
                     notBestIdx, NotBetterThanEverything);
             }
             else
             {
-                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, worse);
+                probably_WhenMultipleNotBestCandidates_DoSomething(results, countOfNotBestCandidates, comparisonHistory);
             }
 
-            worse.Free();
+            comparisonHistory.Free();
         }
 
         private int CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest<TMember>(
