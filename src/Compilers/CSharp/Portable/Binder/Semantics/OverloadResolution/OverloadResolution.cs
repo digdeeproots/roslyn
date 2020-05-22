@@ -3725,7 +3725,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
-    internal static class Applesauce
+    internal static class MethodResolutionComparisonHistoryExtensions
     {
         public static bool IsWorseThanSomething(this ArrayBuilder<int> worse, int candidateIndex)
         {
