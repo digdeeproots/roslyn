@@ -1508,10 +1508,15 @@ namespace Microsoft.CodeAnalysis.CSharp
                 if (analysis.IsWorseThanSomething(i))
                 {
                     // Mark those candidates, that are worse than the single notBest candidate, as Worst in order to improve error reporting.
-                    results[i] = BetterResult.Left == BetterFunctionMember(results[notBestIdx], results[i],
-                        arguments.Arguments, ref useSiteDiagnostics)
-                        ? results[i].Worst()
-                        : results[i].Worse();
+                    if (BetterResult.Left == BetterFunctionMember(results[notBestIdx], results[i],
+                        arguments.Arguments, ref useSiteDiagnostics))
+                    {
+                        results[i] = results[i].Worst();
+                    }
+                    else
+                    {
+                        results[i] = results[i].Worse();
+                    }
                 }
                 else
                 {
