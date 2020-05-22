@@ -3722,19 +3722,19 @@ namespace Microsoft.CodeAnalysis.CSharp
 
     internal static class MethodResolutionAnalysisExtensions
     {
-        public static bool IsWorseThanSomething(this ArrayBuilder<int> worse, int candidateIndex)
+        public static bool IsWorseThanSomething(this ArrayBuilder<int> analysis, int candidateIndex)
         {
-            return worse[candidateIndex] == OverloadResolution.WorseThanSomething;
+            return analysis[candidateIndex] == OverloadResolution.WorseThanSomething;
         }
 
-        public static bool IsStillUnknown(this ArrayBuilder<int> comparisonHistory, int candidateIndex)
+        public static bool IsStillUnknown(this ArrayBuilder<int> analysis, int candidateIndex)
         {
-            return comparisonHistory[candidateIndex] == OverloadResolution.Unknown;
+            return analysis[candidateIndex] == OverloadResolution.Unknown;
         }
 
-        public static void StoreAsNotBestOrWorst(this ArrayBuilder<int> comparisonHistory, int candidateIndex)
+        public static void StoreAsNotBestOrWorst(this ArrayBuilder<int> analysis, int candidateIndex)
         {
-            comparisonHistory[candidateIndex] = OverloadResolution.NotBetterThanEverything;
+            analysis[candidateIndex] = OverloadResolution.NotBetterThanEverything;
         }
 
         public static bool IsNotBetterThanEverything(this ArrayBuilder<int> analysis, int i)
@@ -3742,11 +3742,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             return analysis[i] == OverloadResolution.NotBetterThanEverything;
         }
 
-        public static bool CandidateIsInvalidOrHasBeenCompared<TMember>(ArrayBuilder<int> worse,
+        public static bool CandidateIsInvalidOrHasBeenCompared<TMember>(ArrayBuilder<int> analysis,
             ArrayBuilder<MemberResolutionResult<TMember>> results, int i)
             where TMember : Symbol
         {
-            return !results[i].IsValid || worse[i] != OverloadResolution.Unknown;
+            return !results[i].IsValid || analysis[i] != OverloadResolution.Unknown;
         }
     }
 }
