@@ -1381,7 +1381,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             int notBestIdx = -1;
             int countOfNotBestCandidates =
-                probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff(results,
+                CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest(results,
                     arguments, ref useSiteDiagnostics, worse, ref notBestIdx);
 
             if (countOfNotBestCandidates == 0)
@@ -1401,7 +1401,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             worse.Free();
         }
 
-        private int probably_CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest_AndStuff<TMember>(
+        private int CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics,
             ArrayBuilder<int> comparisonHistory, ref int oneGoodCandidateIndex)
