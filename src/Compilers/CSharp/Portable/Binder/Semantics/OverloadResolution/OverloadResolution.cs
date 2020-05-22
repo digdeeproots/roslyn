@@ -1478,7 +1478,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             for (int i = 0; i < worse.Count; ++i)
             {
-                Debug.Assert(CandidateIsInvalidOrHasBeenCompared(worse, results, i));
+                Debug.Assert(MethodResolutionComparisonHistoryExtensions.CandidateIsInvalidOrHasBeenCompared(worse, results, i));
                 if (worse[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
@@ -1489,13 +1489,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     results[i] = results[i].Worse();
                 }
             }
-        }
-
-        private static bool CandidateIsInvalidOrHasBeenCompared<TMember>(ArrayBuilder<int> worse,
-            ArrayBuilder<MemberResolutionResult<TMember>> results, int i)
-            where TMember : Symbol
-        {
-            return !results[i].IsValid || worse[i] != Unknown;
         }
 
         private void UpdateResultsFromAnalysisWhenOneEquallyGoodCandidate<TMember>(
@@ -3747,6 +3740,13 @@ namespace Microsoft.CodeAnalysis.CSharp
         public static bool IsNotBetterThanEverything(this ArrayBuilder<int> analysis, int i)
         {
             return analysis[i] == OverloadResolution.NotBetterThanEverything;
+        }
+
+        public static bool CandidateIsInvalidOrHasBeenCompared<TMember>(ArrayBuilder<int> worse,
+            ArrayBuilder<MemberResolutionResult<TMember>> results, int i)
+            where TMember : Symbol
+        {
+            return !results[i].IsValid || worse[i] != OverloadResolution.Unknown;
         }
     }
 }
