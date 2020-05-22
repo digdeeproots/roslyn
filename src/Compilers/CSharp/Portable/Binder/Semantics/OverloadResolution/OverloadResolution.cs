@@ -1516,12 +1516,17 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
                 else
                 {
-                    Debug.Assert(!(analysis[i] == notBetterThanEverything) || i == notBestIdx);
+                    Debug.Assert(!IsNotBetterThanEverything(analysis, notBetterThanEverything, i) || i == notBestIdx);
                 }
             }
 
             Debug.Assert(analysis[notBestIdx] == notBetterThanEverything);
             results[notBestIdx] = results[notBestIdx].Worse();
+        }
+
+        private static bool IsNotBetterThanEverything(ArrayBuilder<int> analysis, int notBetterThanEverything, int i)
+        {
+            return analysis[i] == notBetterThanEverything;
         }
 
         private static void UpdateResultsFromAnalysisWhenThereAreNoGoodCandidates<TMember>(
