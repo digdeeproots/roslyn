@@ -1360,8 +1360,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return;
             }
 
-            // See if we have a winner, otherwise we might need to perform additional analysis
-            // in order to improve diagnostics
             int bestIndex = GetTheBestCandidateIndex(results, arguments, ref useSiteDiagnostics);
             if (bestIndex != -1)
             {
@@ -1369,6 +1367,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return;
             }
 
+            // Perform additional analysis in order to improve diagnostics
             probably_WhenThereIsNoBestCandidate_DoSomething(results, arguments, ref useSiteDiagnostics);
         }
 
