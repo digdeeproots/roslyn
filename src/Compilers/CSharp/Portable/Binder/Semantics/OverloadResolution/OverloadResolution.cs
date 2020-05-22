@@ -1461,7 +1461,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     BetterFunctionMember(candidate, comparedToCandidate, arguments.Arguments, ref useSiteDiagnostics);
                 if (better == BetterResult.Left)
                 {
-                    StoreAsWorseThanSomething(analysis, comparedToCandidateIndex);
+                    MethodResolutionAnalysisExtensions.StoreAsWorseThanSomething(analysis, comparedToCandidateIndex);
                 }
                 else if (better == BetterResult.Right)
                 {
@@ -1470,11 +1470,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     break;
                 }
             }
-        }
-
-        private static int StoreAsWorseThanSomething(ArrayBuilder<int> analysis, int comparedToCandidateIndex)
-        {
-            return analysis[comparedToCandidateIndex] = WorseThanSomething;
         }
 
         private static void UpdateResultsFromAnalysisWhenMultipleEquallyGoodCandidates<TMember>(
@@ -3756,6 +3751,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             where TMember : Symbol
         {
             return !results[i].IsValid || analysis[i] != OverloadResolution.Unknown;
+        }
+
+        public static int StoreAsWorseThanSomething(ArrayBuilder<int> analysis, int comparedToCandidateIndex)
+        {
+            return analysis[comparedToCandidateIndex] = OverloadResolution.WorseThanSomething;
         }
     }
 }
