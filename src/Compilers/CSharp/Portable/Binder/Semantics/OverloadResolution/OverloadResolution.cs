@@ -1525,13 +1525,13 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private static void UpdateResultsFromAnalysisWhenThereAreNoGoodCandidates<TMember>(
-            ArrayBuilder<MemberResolutionResult<TMember>> results, ArrayBuilder<int> worse, int worseThanSomething)
+            ArrayBuilder<MemberResolutionResult<TMember>> results, ArrayBuilder<int> analysis, int worseThanSomething)
             where TMember : Symbol
         {
-            for (int i = 0; i < worse.Count; ++i)
+            for (int i = 0; i < analysis.Count; ++i)
             {
-                Debug.Assert(!results[i].IsValid || !worse.IsStillUnknown(i));
-                if (worse[i] == worseThanSomething)
+                Debug.Assert(!results[i].IsValid || !analysis.IsStillUnknown(i));
+                if (analysis[i] == worseThanSomething)
                 {
                     results[i] = results[i].Worse();
                 }
