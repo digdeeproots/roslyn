@@ -1530,7 +1530,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             for (int i = 0; i < worse.Count; ++i)
             {
-                Debug.Assert(!results[i].IsValid || worse[i] != Unknown);
+                Debug.Assert(!results[i].IsValid || !worse.IsStillUnknown(i));
                 if (worse[i] == worseThanSomething)
                 {
                     results[i] = results[i].Worse();
