@@ -1478,7 +1478,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             for (int i = 0; i < worse.Count; ++i)
             {
-                Debug.Assert(MethodResolutionComparisonHistoryExtensions.CandidateIsInvalidOrHasBeenCompared(worse, results, i));
+                Debug.Assert(MethodResolutionAnalysisExtensions.CandidateIsInvalidOrHasBeenCompared(worse, results, i));
                 if (worse[i] == WorseThanSomething)
                 {
                     // Mark those candidates, that are worse than something, as Worst in order to improve error reporting.
@@ -3720,7 +3720,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
-    internal static class MethodResolutionComparisonHistoryExtensions
+    internal static class MethodResolutionAnalysisExtensions
     {
         public static bool IsWorseThanSomething(this ArrayBuilder<int> worse, int candidateIndex)
         {
