@@ -1379,7 +1379,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             int notBestIdx = -1;
             int numberOfEquallyGoodCandidates =
-                CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest(results,
+                FindAllEquallyGoodCandidates(results,
                     arguments, ref useSiteDiagnostics, comparisonHistory, ref notBestIdx);
 
             if (numberOfEquallyGoodCandidates == 0)
@@ -1399,7 +1399,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             comparisonHistory.Free();
         }
 
-        private int CountNotBestCandidatesAndFindOneAndMarkAllCandidatesAsWorseOrNotBest<TMember>(
+        private int FindAllEquallyGoodCandidates<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments,
             ref HashSet<DiagnosticInfo> useSiteDiagnostics,
             ArrayBuilder<int> comparisonHistory, ref int oneGoodCandidateIndex)
