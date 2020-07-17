@@ -1388,14 +1388,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             if (countOfNotBestCandidates == 0)
             {
-                for (int i = 0; i < worse.Count; ++i)
-                {
-                    Debug.Assert(!results[i].IsValid || worse[i] != unknown);
-                    if (worse[i] == worseThanSomething)
-                    {
-                        results[i] = results[i].Worse();
-                    }
-                }
+                probably_DoSomethingWhenNoNotBestCandidates(results, worse, unknown, worseThanSomething);
             }
             else if (countOfNotBestCandidates == 1)
             {
@@ -1439,6 +1432,19 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             worse.Free();
+        }
+
+        private static void probably_DoSomethingWhenNoNotBestCandidates<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, ArrayBuilder<int> worse,
+            int unknown, int worseThanSomething) where TMember : Symbol
+        {
+            for (int i = 0; i < worse.Count; ++i)
+            {
+                Debug.Assert(!results[i].IsValid || worse[i] != unknown);
+                if (worse[i] == worseThanSomething)
+                {
+                    results[i] = results[i].Worse();
+                }
+            }
         }
 
         private int Applesauce2<TMember>(ArrayBuilder<MemberResolutionResult<TMember>> results, AnalyzedArguments arguments, ref HashSet<DiagnosticInfo> useSiteDiagnostics,
