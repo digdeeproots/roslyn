@@ -1365,7 +1365,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             int bestIndex = GetTheBestCandidateIndex(results, arguments, ref useSiteDiagnostics);
             if (bestIndex != -1)
             {
-                probably_MarkAllOtherCandidatesAsWorse(results, bestIndex);
+                certainly_MarkAllOtherCandidatesAsWorse(results, bestIndex);
                 return;
             }
 
@@ -1540,7 +1540,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        private static void probably_MarkAllOtherCandidatesAsWorse<TMember>(
+        private static void certainly_MarkAllOtherCandidatesAsWorse<TMember>(
             ArrayBuilder<MemberResolutionResult<TMember>> results, int bestIndex)
             where TMember : Symbol
         {
